@@ -35,7 +35,6 @@ transit_df =
   
 ```
 The primary variables of this dataset are the name and location of the stations, their divisions and lines with different routes, the types of entrance and their locations. Other additional information such as presence of staffs, vending, ADA, and crossing over are also provided.
-
 My __cleaning steps__ are 
 1) Read the csv documents and clean the names with janitor.
 2) Convert _entry_ variable to logical variable, _corner_, _staffing_, _entrance_type_, and _division_ to factor variables, and convert _route8_ to _route11_ to character variables.
@@ -43,3 +42,13 @@ My __cleaning steps__ are
 4) Combine the column of _station_name_ and _line_ to _unique_station_name_ as a mark the station.
 
 This processed dataset has `r nrow(transit_df)` rows and `r ncol(transit_df)` columns. Since the variables of  _route_name_ and _route_number_ are manipulated to make each column a variable and each row an observation, data in this set are now tidy. 
+
+```{r count_stations, echo=FALSE, message=FALSE}
+station_number = n_distinct(transit_df$unique_station_name)
+station_ada = n_distinct(transit_df$unique_station_name[transit_df$ada == TRUE])
+total_no_vending = n_distinct(transit_df$unique_station_name[transit_df$vending == 'NO'])
+no_vending_with_entrance = n_distinct(transit_df$unique_station_name[transit_df$vending == 'NO' & transit_df$entry == TRUE])
+station_proportion = round(no_vending_with_entrance/total_no_vending)
+```
+
+There are `r station_number` unique stations and `r station_ada` of them are ADA compliant. `r station_proportion` is the proportion of stations that have no vending but allow entrance.

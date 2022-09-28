@@ -48,7 +48,7 @@ station_number = n_distinct(transit_df$unique_station_name)
 station_ada = n_distinct(transit_df$unique_station_name[transit_df$ada == TRUE])
 total_no_vending = n_distinct(transit_df$unique_station_name[transit_df$vending == 'NO'])
 no_vending_with_entrance = n_distinct(transit_df$unique_station_name[transit_df$vending == 'NO' & transit_df$entry == TRUE])
-station_proportion = round(no_vending_with_entrance/total_no_vending)
+station_proportion = round(no_vending_with_entrance/total_no_vending, digits = 2)
 ```
 
 There are `r station_number` unique stations and `r station_ada` of them are ADA compliant. `r station_proportion` is the proportion of stations that have no vending but allow entrance.

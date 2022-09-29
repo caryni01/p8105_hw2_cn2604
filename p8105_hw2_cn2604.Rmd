@@ -98,4 +98,22 @@ There are `r nrow(combined_trash_df)` observations and `r ncol(combined_trash_df
 
 The total trash weight collected by Professor Trash Wheel is `r pro_trash_weight` tons. The total number of sports balls collected by Mr.Trash Wheel in 2020 is `r mr_trash_ball`.
 
+# Problem 3
+
+```{r clean_file_3, echo=FALSE, message=FALSE}
+pols_df = read_csv("./data/fivethirtyeight_datasets/pols-month.csv") %>% 
+  separate(mon, into = c("year", "month", "day"), sep = '-') %>% 
+  mutate(
+    month = as.numeric(month),
+    month = month.name[month],
+    president = case_when(
+      prez_gop == 1 ~ "gop",
+      prez_dem == 1 ~ "dem"
+    )
+  ) %>% 
+  relocate(president, .after = month) %>% 
+  select(-c(prez_gop, prez_dem, day))
+  
+```
+
 

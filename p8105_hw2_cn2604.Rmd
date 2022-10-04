@@ -118,7 +118,7 @@ snp_df = read_csv("./data/fivethirtyeight_datasets/snp.csv") %>%
     month = as.numeric(month),
     month = tolower(month.abb[month]),
     year = as.numeric(year),
-    year = year + 2000
+    year = ifelse(year >= 50, year + 1900, year +2000)
   ) %>% 
   relocate(month, .after = year) %>% 
   select(-day)

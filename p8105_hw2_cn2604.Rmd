@@ -65,9 +65,9 @@ There are `r station_number` unique stations and `r station_ada` of them are ADA
 # Problem 2
 
 ```{r clean_file_2, echo=FALSE, message=FALSE}
-mr_trash_df = read_excel("./data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx",
+mr_trash_df = read_excel("./data/Trash Wheel Collection Data.xlsx",
                       sheet = 'Mr. Trash Wheel',
-                      range = "A2:N535") %>% 
+                      range = "A2:N550") %>% 
   janitor::clean_names() %>% 
   na.omit() %>% 
   mutate(
@@ -76,16 +76,13 @@ mr_trash_df = read_excel("./data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx",
   ) %>% 
   add_column(type = "Mr.Trash Wheel", .after = "dumpster")
 
-pro_trash_df = read_excel("./data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx",
+pro_trash_df = read_excel("./data/Trash Wheel Collection Data.xlsx",
                       sheet = 'Professor Trash Wheel',
-                      range = "A2:N117") %>% 
+                      range = "A2:M97") %>% 
   janitor::clean_names() %>% 
   na.omit() %>% 
-  mutate(
-    sports_balls = round(sports_balls),
-    sports_balls = as.integer(sports_balls)
-  ) %>% 
-  add_column(type = "Professor Trash Wheel", .after = "dumpster")
+  add_column(type = "Professor Trash Wheel", .after = "dumpster") %>% 
+  add_column(sports_balls = 0, .after= "chip_bags")
 
 combined_trash_df = rbind(mr_trash_df, pro_trash_df) %>% 
   mutate(dumpster = as.integer(dumpster)) %>% 

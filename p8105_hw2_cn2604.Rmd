@@ -105,13 +105,13 @@ pols_df = read_csv("./data/fivethirtyeight_datasets/pols-month.csv") %>%
     year = as.numeric(year),
     month = tolower(month.abb[month]),
     president = case_when(
-      prez_gop == 1 ~ "gop",
-      prez_dem == 1 ~ "dem"
+      prez_gop > 0 ~ "gop",
+      prez_dem > 0 ~ "dem"
     )
   ) %>% 
   relocate(president, .after = month) %>% 
   select(-c(prez_gop, prez_dem, day))
-  
+
 snp_df = read_csv("./data/fivethirtyeight_datasets/snp.csv") %>% 
   separate(date, into = c("month", "day", "year"), sep = '/') %>% 
   mutate(

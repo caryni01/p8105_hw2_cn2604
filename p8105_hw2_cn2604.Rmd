@@ -48,13 +48,9 @@ This processed dataset has `r nrow(transit_df)` rows and `r ncol(transit_df)` co
 station_number = n_distinct(transit_df$unique_station_name)
 station_ada = n_distinct(transit_df$unique_station_name[transit_df$ada == TRUE])
 total_no_vending = n_distinct(transit_df$unique_station_name[transit_df$vending == 'NO'])
-
 no_vending_with_entrance = n_distinct(transit_df$unique_station_name[transit_df$vending == 'NO' & transit_df$entry == TRUE])
-
 station_proportion = round(no_vending_with_entrance/total_no_vending, digits = 2)
-
 route_a_station = n_distinct(transit_df$unique_station_name[transit_df$route_name == 'A'])
-
 route_a_station_ada = n_distinct(transit_df$unique_station_name[transit_df$route_name == 'A' & transit_df$ada == TRUE])
 ```
 
@@ -75,7 +71,6 @@ mr_trash_df = read_excel("./data/Trash Wheel Collection Data.xlsx",
     sports_balls = as.integer(sports_balls)
   ) %>% 
   add_column(type = "Mr.Trash Wheel", .after = "dumpster")
-
 pro_trash_df = read_excel("./data/Trash Wheel Collection Data.xlsx",
                       sheet = 'Professor Trash Wheel',
                       range = "A2:M97") %>% 
@@ -83,11 +78,9 @@ pro_trash_df = read_excel("./data/Trash Wheel Collection Data.xlsx",
   na.omit() %>% 
   add_column(type = "Professor Trash Wheel", .after = "dumpster") %>% 
   add_column(sports_balls = 0, .after= "chip_bags")
-
 combined_trash_df = rbind(mr_trash_df, pro_trash_df) %>% 
   mutate(dumpster = as.integer(dumpster)) %>% 
   arrange(dumpster)
-
 pro_trash_weight = sum(combined_trash_df$weight_tons[combined_trash_df$type == "Professor Trash Wheel"])
 mr_trash_ball = sum(combined_trash_df$sports_balls[combined_trash_df$type == "Mr.Trash Wheel" & combined_trash_df$year == 2020])
 ```
@@ -111,7 +104,6 @@ pols_df = read_csv("./data/fivethirtyeight_datasets/pols-month.csv") %>%
   ) %>% 
   relocate(president, .after = month) %>% 
   select(-c(prez_gop, prez_dem, day))
-
 snp_df = read_csv("./data/fivethirtyeight_datasets/snp.csv") %>% 
   separate(date, into = c("month", "day", "year"), sep = '/') %>% 
   mutate(
@@ -122,7 +114,6 @@ snp_df = read_csv("./data/fivethirtyeight_datasets/snp.csv") %>%
   ) %>% 
   relocate(month, .after = year) %>% 
   select(-day)
-
 unemp_df = read_csv("./data/fivethirtyeight_datasets/unemployment.csv") %>% 
   janitor::clean_names() %>%
   pivot_longer(
@@ -130,7 +121,6 @@ unemp_df = read_csv("./data/fivethirtyeight_datasets/unemployment.csv") %>%
     names_to = "month",
     values_to = "unemployment_rate"
   )
-
 combined_pol_df = merge(pols_df, snp_df, by = c("year", "month") )
 combined_all_df = merge(combined_pol_df, unemp_df, by = c("year", "month"))
 ```
@@ -140,5 +130,4 @@ The dataset of __snp__ has `r nrow(snp_df)` observations and `r ncol(snp_df)` va
 
 The dataset of __unempolyment__ has `r nrow(unemp_df)` observations and `r ncol(unemp_df)` variables after cleaning process. The year range is between `r min(unemp_df$year)` and `r max(unemp_df$year)`. The important variable is `r names(select(unemp_df, -c(year, month)))`, which shows the unemployment rate at that time.
 
-The __final combined__ dataset of has `r nrow(combined_all_df)` observations and `r ncol(combined_all_df)` variables after cleaning process. The year range is between `r min(combined_all_df$year)` and `r max(combined_all_df$year)`. The important variable is `r names(select(combined_all_df, -c(year, month)))`, which contains all of the informations from the datasets above and the time.
-
+The __final combined__ dataset of has `r nrow(combined_all_df)` observations and `r ncol(combined_all_df)` variables after cleaning process. The year range is between `r min(combined_all_df$year)` and `r max(combined_all_df$year)`. The important variable is `r names(select(combined_all_df, -c(year, month)))`, which contains all of the information from the datasets above and the time.

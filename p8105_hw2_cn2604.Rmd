@@ -121,8 +121,8 @@ unemp_df = read_csv("./data/fivethirtyeight_datasets/unemployment.csv") %>%
     names_to = "month",
     values_to = "unemployment_rate"
   )
-combined_pol_df = merge(pols_df, snp_df, by = c("year", "month") )
-combined_all_df = merge(combined_pol_df, unemp_df, by = c("year", "month"))
+combined_pol_df = left_join(pols_df, snp_df, by = c("year", "month") )
+combined_all_df = left_join(combined_pol_df, unemp_df, by = c("year", "month"))
 ```
 The dataset of __pols-month__ has `r nrow(pols_df)` observations and `r ncol(pols_df)` variables after cleaning process. The year range is between `r min(pols_df$year)` and `r max(pols_df$year)`. The important variables are `r names(select(pols_df, -c(year, month)))`, which specifies the political party of the president, number of governors, senators, and representatives at that time.
 
